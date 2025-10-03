@@ -23,11 +23,11 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node Customer Trusted
 CustomerTrusted_node1759349880774 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="customer_trusted", transformation_ctx="CustomerTrusted_node1759349880774")
 
-# Script generated for node Accelerometer Landing to Trusted
-AccelerometerLandingtoTrusted_node1759349440434 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="accelerometer_landing", transformation_ctx="AccelerometerLandingtoTrusted_node1759349440434")
+# Script generated for node Accelerometer Landing S3 Bucket
+AccelerometerLandingS3Bucket_node1759505759627 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://andrew-robinson2/accelerometer/landing/"], "recurse": True}, transformation_ctx="AccelerometerLandingS3Bucket_node1759505759627")
 
 # Script generated for node Join
-Join_node1759349717579 = Join.apply(frame1=AccelerometerLandingtoTrusted_node1759349440434, frame2=CustomerTrusted_node1759349880774, keys1=["user"], keys2=["email"], transformation_ctx="Join_node1759349717579")
+Join_node1759349717579 = Join.apply(frame1=CustomerTrusted_node1759349880774, frame2=AccelerometerLandingS3Bucket_node1759505759627, keys1=["email"], keys2=["user"], transformation_ctx="Join_node1759349717579")
 
 # Script generated for node Drop Fields
 DropFields_node1759349959497 = DropFields.apply(frame=Join_node1759349717579, paths=["email", "phone"], transformation_ctx="DropFields_node1759349959497")

@@ -26,15 +26,15 @@ DEFAULT_DATA_QUALITY_RULESET = """
     ]
 """
 
-# Script generated for node Customer Landing
-CustomerLanding_node1759346088393 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="customer_landing", transformation_ctx="CustomerLanding_node1759346088393")
+# Script generated for node Customer Landing S3 Bucket
+CustomerLandingS3Bucket_node1759505581336 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://andrew-robinson2/customer/landing/"], "recurse": True}, transformation_ctx="CustomerLandingS3Bucket_node1759505581336")
 
 # Script generated for node Share with Research
 SqlQuery0 = '''
 select * from myDataSource
 where shareWithResearchAsOfDate is not null
 '''
-SharewithResearch_node1759346129451 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"myDataSource":CustomerLanding_node1759346088393}, transformation_ctx = "SharewithResearch_node1759346129451")
+SharewithResearch_node1759346129451 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"myDataSource":CustomerLandingS3Bucket_node1759505581336}, transformation_ctx = "SharewithResearch_node1759346129451")
 
 # Script generated for node Customer Trusted
 EvaluateDataQuality().process_rows(frame=SharewithResearch_node1759346129451, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1759346083080", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})

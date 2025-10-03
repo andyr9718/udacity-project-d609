@@ -29,8 +29,8 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node Customer Curated
 CustomerCurated_node1759425974109 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="customer_curated", transformation_ctx="CustomerCurated_node1759425974109")
 
-# Script generated for node Step Trainer Landing
-StepTrainerLanding_node1759425942362 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="step_trainer_landing", transformation_ctx="StepTrainerLanding_node1759425942362")
+# Script generated for node Step Trainer Landing S3 Bucket
+StepTrainerLandingS3Bucket_node1759505928657 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://andrew-robinson2/step-trainer/landing/"], "recurse": True}, transformation_ctx="StepTrainerLandingS3Bucket_node1759505928657")
 
 # Script generated for node Join
 SqlQuery0 = '''
@@ -44,7 +44,7 @@ WHERE
         FROM customer_curated
     );
 '''
-Join_node1759426802685 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"customer_curated":CustomerCurated_node1759425974109, "step_trainer_landing":StepTrainerLanding_node1759425942362}, transformation_ctx = "Join_node1759426802685")
+Join_node1759426802685 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"customer_curated":CustomerCurated_node1759425974109, "step_trainer_landing":StepTrainerLandingS3Bucket_node1759505928657}, transformation_ctx = "Join_node1759426802685")
 
 # Script generated for node Step Trainer Trusted
 EvaluateDataQuality().process_rows(frame=Join_node1759426802685, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1759425895689", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})

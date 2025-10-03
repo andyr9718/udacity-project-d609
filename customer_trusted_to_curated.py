@@ -29,11 +29,11 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node Customer Trusted
 CustomerTrusted_node1759349880774 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="customer_trusted", transformation_ctx="CustomerTrusted_node1759349880774")
 
-# Script generated for node Accelerometer Landing to Trusted
-AccelerometerLandingtoTrusted_node1759349440434 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="accelerometer_landing", transformation_ctx="AccelerometerLandingtoTrusted_node1759349440434")
+# Script generated for node Accelerometer Trusted
+AccelerometerTrusted_node1759349440434 = glueContext.create_dynamic_frame.from_catalog(database="dev", table_name="accelerometer_trusted", transformation_ctx="AccelerometerTrusted_node1759349440434")
 
 # Script generated for node Join
-Join_node1759349717579 = Join.apply(frame1=AccelerometerLandingtoTrusted_node1759349440434, frame2=CustomerTrusted_node1759349880774, keys1=["user"], keys2=["email"], transformation_ctx="Join_node1759349717579")
+Join_node1759349717579 = Join.apply(frame1=AccelerometerTrusted_node1759349440434, frame2=CustomerTrusted_node1759349880774, keys1=["user"], keys2=["email"], transformation_ctx="Join_node1759349717579")
 
 # Script generated for node Drop Fields and Duplicates
 SqlQuery0 = '''
